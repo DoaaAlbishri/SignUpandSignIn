@@ -20,13 +20,19 @@ class SignIn : AppCompatActivity() {
         edpassword = findViewById(R.id.edpw)
         dbhlr = DBHlr(this)
         btlogin.setOnClickListener {
-            var list = dbhlr.check(edmobile.text.toString(),edpassword.text.toString())
-            if(list.name!=""){
-                val intent = Intent(this , Details::class.java)
-                intent.putExtra("mobile",edmobile.text.toString())
-                //intent.putExtra("name",name)
-                //intent.putExtra("location",location)
-                startActivity(intent)
+            if (edmobile.text.isEmpty() || edpassword.text.isEmpty())
+                Toast.makeText(this, "Fill all fileds please!!", Toast.LENGTH_SHORT).show()
+            else {
+                var list = dbhlr.check(edmobile.text.toString(), edpassword.text.toString())
+                if (list.name != "") {
+                    val intent = Intent(this, Details::class.java)
+                    intent.putExtra("mobile", edmobile.text.toString())
+                    //intent.putExtra("name",name)
+                    //intent.putExtra("location",location)
+                    startActivity(intent)
+                }else{
+                    Toast.makeText(this, "Not correct", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

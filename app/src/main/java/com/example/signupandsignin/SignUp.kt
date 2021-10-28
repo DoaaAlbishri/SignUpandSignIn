@@ -24,17 +24,21 @@ class SignUp : AppCompatActivity() {
         submitbt = findViewById(R.id.Submitbtn)
         dbhlr = DBHlr(this)
         submitbt.setOnClickListener {
-            var name = edname.text.toString()
-            var mobile = edmob.text.toString()
-            var location = edloc.text.toString()
-            var password = edpw.text.toString()
-            dbhlr.savedata(name,mobile,location,password)
-            Toast.makeText(this, "Save successfully", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this , Details::class.java)
-            intent.putExtra("mobile",mobile)
-            //intent.putExtra("name",name)
-            //intent.putExtra("location",location)
-            startActivity(intent)
+            if (edname.text.isEmpty() || edmob.text.isEmpty() || edloc.text.isEmpty() || edpw.text.isEmpty())
+                Toast.makeText(this, "Fill all fileds please!!", Toast.LENGTH_SHORT).show()
+            else {
+                var name = edname.text.toString()
+                var mobile = edmob.text.toString()
+                var location = edloc.text.toString()
+                var password = edpw.text.toString()
+                dbhlr.savedata(name, mobile, location, password)
+                Toast.makeText(this, "Save successfully", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Details::class.java)
+                intent.putExtra("mobile", mobile)
+                //intent.putExtra("name",name)
+                //intent.putExtra("location",location)
+                startActivity(intent)
+            }
         }
     }
 }

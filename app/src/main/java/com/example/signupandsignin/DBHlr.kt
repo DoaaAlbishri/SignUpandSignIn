@@ -43,16 +43,21 @@ class DBHlr(context: Context?) : SQLiteOpenHelper(context, "details.db", null, 1
     @SuppressLint("Range")
     fun check(s1:String,s2:String) : account {
         val cursor: Cursor = sql.query("Account",null,"Mobile=?", arrayOf(s1),null,null,null)
-        cursor.moveToFirst()
-        var list = account("","","","")
-        val mobile: String = cursor.getString(cursor.getColumnIndex("Mobile"))
-        val password: String = cursor.getString(cursor.getColumnIndex("Password"))
-        if(mobile==s1 && password==s2){
-            val name: String = cursor.getString(cursor.getColumnIndex("Name"))
-            val location: String = cursor.getString(cursor.getColumnIndex("Location"))
-            list = account(name,mobile,location,password)
+        var list = account("", "", "", "")
+        if(cursor.count>0) {
+            cursor.moveToFirst()
+            val mobile: String = cursor.getString(cursor.getColumnIndex("Mobile"))
+            val password: String = cursor.getString(cursor.getColumnIndex("Password"))
+            if (mobile == s1 && password == s2) {
+                val name: String = cursor.getString(cursor.getColumnIndex("Name"))
+                val location: String = cursor.getString(cursor.getColumnIndex("Location"))
+                list = account(name, mobile, location, password)
+            } else {
+                //    Toast.makeText(this, "Not correct", Toast.LENGTH_SHORT).show()
+                list = account("", mobile, "", password)
+            }
         }else{
-        //    Toast.makeText(this, "Not correct", Toast.LENGTH_SHORT).show()
+            list =  account("", "", "", "")
         }
         return list
     }
